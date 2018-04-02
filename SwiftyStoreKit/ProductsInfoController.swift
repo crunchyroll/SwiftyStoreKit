@@ -57,10 +57,10 @@ class ProductsInfoController: NSObject {
             let request = inAppProductRequestBuilder.request(productIds: productIds) { results in
                 
                 if let query = self.inflightRequests[productIds] {
+                    self.inflightRequests[productIds] = nil
                     for completion in query.completionHandlers {
                         completion(results)
                     }
-                    self.inflightRequests[productIds] = nil
                 } else {
                     // should not get here, but if it does it seems reasonable to call the outer completion block
                     completion(results)
